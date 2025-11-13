@@ -13,18 +13,18 @@ create_admin_account = true
 [user_store]
 type = "database_unique_id"
 
-[database.apim_db]	
+[database.apim_db]
 type = "mysql"
-url = "jdbc:mysql://mysql:3306/WSO2AM_DB?autoReconnect=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false"
+url = "jdbc:mysql://mysql:3306/WSO2AM_DB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true"
 username = "wso2carbon"
 password = "wso2carbon"
 driver = "com.mysql.cj.jdbc.Driver"
 
 [database.shared_db]
 type = "mysql"
-url = "jdbc:mysql://mysql:3306/WSO2AM_SHARED_DB?autoReconnect=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false"
-username = "wso2carbon"	
-password = "wso2carbon"	
+url = "jdbc:mysql://mysql:3306/WSO2AM_SHARED_DB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true"
+username = "wso2carbon"
+password = "wso2carbon"
 driver = "com.mysql.cj.jdbc.Driver"
 
 [keystore.tls]
@@ -52,7 +52,7 @@ key_password =  "wso2carbon"
 #key_password =  "wso2carbon"
 
 [apim]
-gateway_type = "Regular,APK,AWS"
+gateway_type = "Regular,APK,AWS,Azure,Kong,Envoy"
 
 [[apim.gateway.environment]]
 name = "Default"
@@ -103,19 +103,16 @@ gateway_labels =["Default"]
 #[apim.cache.tags]
 #expiry_time = "2m"
 
-[apim.analytics]	
-enable = true	
-config_endpoint = "https://analytics-event-auth.choreo.dev/auth/v1"	
-auth_token = "on-prem-key"
+#[apim.analytics]
+#enable = false
+#type = "moesif"
 
 [apim.ai]
 enable = true
-token = ""
-endpoint = ""
+key = ""
 
 [apim.key_manager]
-service_url = "https://is-as-km:9444/services/"
-type = "WSO2-IS"
+enable_lightweight_apikey_generation = true
 #service_url = "https://localhost:${mgt.transport.https.port}/services/"
 #username = "$ref{super_admin.username}"
 #password = "$ref{super_admin.password}"
@@ -125,11 +122,11 @@ type = "WSO2-IS"
 #key_validation_handler_type = "custom"
 #key_validation_handler_impl = "org.wso2.carbon.apimgt.keymgt.handlers.DefaultKeyValidationHandler"
 
-[apim.idp]
-server_url = "https://is-as-km:9444"
-authorize_endpoint = "https://is-as-km:9444/oauth2/authorize"
-oidc_logout_endpoint = "https://is-as-km:9444/oidc/logout"
-oidc_check_session_endpoint = "https://is-as-km:9444/oidc/checksession"
+#[apim.idp]
+#server_url = "https://localhost:${mgt.transport.https.port}"
+#authorize_endpoint = "https://localhost:${mgt.transport.https.port}/oauth2/authorize"
+#oidc_logout_endpoint = "https://localhost:${mgt.transport.https.port}/oidc/logout"
+#oidc_check_session_endpoint = "https://localhost:${mgt.transport.https.port}/oidc/checksession"
 
 #[apim.jwt]
 #enable = true
@@ -143,8 +140,8 @@ oidc_check_session_endpoint = "https://is-as-km:9444/oidc/checksession"
 #claims_extractor_impl = "org.wso2.carbon.apimgt.impl.token.ExtendedDefaultClaimsRetriever"
 #use_sha256_hash = false
 
-#[apim.oauth_config]
-#enable_outbound_auth_header = false
+[apim.oauth_config]
+enable_outbound_auth_header = true
 #auth_header = "Authorization"
 #revoke_endpoint = "https://localhost:${https.nio.port}/revoke"
 #enable_token_encryption = false
@@ -265,7 +262,6 @@ id = "token_revocation"
 type = "org.wso2.carbon.identity.core.handler.AbstractIdentityHandler"
 name = "org.wso2.is.notification.ApimOauthEventInterceptor"
 order = 1
-
 [event_listener.properties]
 notification_endpoint = "https://localhost:${mgt.transport.https.port}/internal/data/v1/notify"
 username = "${admin.username}"
@@ -273,7 +269,7 @@ password = "${admin.password}"
 'header.X-WSO2-KEY-MANAGER' = "default"
 
 [oauth.grant_type.token_exchange]
-enable = false
+enable = true
 allow_refresh_tokens = true
 iat_validity_period = "1h"
 

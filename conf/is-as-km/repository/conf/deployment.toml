@@ -1,6 +1,5 @@
 [server]
 hostname = "localhost"
-offset = 1
 node_ip = "127.0.0.1"
 base_path = "https://$ref{server.hostname}:${carbon.management.port}"
 
@@ -14,25 +13,27 @@ type = "database_unique_id"
 
 [database.identity_db]
 type = "mysql"
-url = "jdbc:mysql://mysql:3306/WSO2AM_DB?autoReconnect=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false"
+url = "jdbc:mysql://mysql:3306/WSO2AM_DB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true"
 username = "wso2carbon"
 password = "wso2carbon"
 driver = "com.mysql.cj.jdbc.Driver"
 
 [database.shared_db]
 type = "mysql"
-url = "jdbc:mysql://mysql:3306/WSO2AM_SHARED_DB?autoReconnect=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false"
-username = "wso2carbon"	
-password = "wso2carbon"	
+url = "jdbc:mysql://mysql:3306/WSO2AM_SHARED_DB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true"
+username = "wso2carbon"
+password = "wso2carbon"
 driver = "com.mysql.cj.jdbc.Driver"
 
-[keystore]
-userstore_password_encryption = "InternalKeyStore"
+[keystore.primary]
+file_name = "wso2carbon.p12"
+password = "wso2carbon"
+type="PKCS12"
 
 [truststore]
-file_name="client-truststore.jks"
+file_name="client-truststore.p12"
 password="wso2carbon"
-type="JKS"
+type="PKCS12"
 
 [account_recovery.endpoint.auth]
 hash= "66cd9688a2ae068244ea01e70f0e230f5623b7fa4cdecb65070a09ec06452262"
@@ -75,75 +76,11 @@ app_password= "dashboard"
 #hostname= "smtp.gmail.com"
 #port= 587
 
-[[event_listener]]
-id = "token_revocation"
-type = "org.wso2.carbon.identity.core.handler.AbstractIdentityHandler"
-name = "org.wso2.is.notification.ApimOauthEventInterceptor"
-order = 1
+# Disable password input validation to allow any password format
+[event.default_listener.identity_mgt]
+priority = 50
+enable = false
 
-[event_listener.properties]
-notification_endpoint = "https://api-manager:9443/internal/data/v1/notify"
-username = "${admin.username}"
-password = "${admin.password}"
-'header.X-WSO2-KEY-MANAGER' = "WSO2-IS"
-
-[[resource.access_control]]
-context = "(.)/keymanager-operations/user-info/claims(.)"
-secure = true
-http_method = "GET"
-permissions = "/permission/admin/manage/identity/usermgt/list"
-scopes = "internal_user_mgt_list"
-
-[[resource.access_control]]
-context = "(.*)/keymanager-operations/user-info/claims/generate"
-secure = true
-http_method = "POST"
-permissions = "/permission/admin/manage/identity/usermgt/list"
-scopes = "internal_user_mgt_list"
-
-[[resource.access_control]]
-context = "(.*)/keymanager-operations/dcr/register"
-secure = true
-http_method = "POST"
-permissions = "/permission/admin/manage/identity/applicationmgt/create"
-scopes = "internal_application_mgt_create"
-
-[[resource.access_control]]
-context = "(.*)/keymanager-operations/dcr/register(.*)"
-secure = true
-http_method = "GET"
-permissions = "/permission/admin/manage/identity/applicationmgt/view"
-scopes = "internal_application_mgt_view"
-
-[[resource.access_control]]
-context = "(.*)/keymanager-operations/dcr/register(.*)"
-secure = true
-http_method = "DELETE"
-permissions = "/permission/admin/manage/identity/applicationmgt/delete"
-scopes = "internal_application_mgt_delete"
-
-[[resource.access_control]]
-context = "(.*)/keymanager-operations/dcr/register(.*)"
-secure = true
-http_method = "PUT"
-permissions = "/permission/admin/manage/identity/applicationmgt/update"
-scopes = "internal_application_mgt_update"
-
-[[resource.access_control]]
-context = "(.*)/keymanager-operations/dcr/register(.*)"
-secure = true
-http_method = "POST"
-permissions = "/permission/admin/manage/identity/applicationmgt/update"
-scopes = "internal_application_mgt_update"
-
-[tenant_context.rewrite]
-custom_webapps = ["/keymanager-operations/"]
-
-[system.parameter]
-"org.wso2.CipherTransformation" = "RSA/ECB/OAEPwithSHA1andMGF1Padding"
-
-[encryption]
-internal_crypto_provider = "org.wso2.carbon.crypto.provider.KeyStoreBasedInternalCryptoProvider"
-
-[authorization_manager.properties]
-GroupAndRoleSeparationEnabled = false
+[event.default_listener.governance_identity_mgt]
+priority = 95
+enable = false
