@@ -36,9 +36,11 @@ The `mysql_apim.sql` initialization script was missing:
   - Added `API_RESOURCE_PROPERTY` table
   - Recreated dependent tables (`IDP_AUTHENTICATOR_PROPERTY`, `SP_FEDERATED_IDP`)
 
-### 2. Created Migration Script (`conf/mysql/scripts/migration_is_7.1.0.sql`)
+### 2. Created Migration Script (`conf/mysql/migration_is_7.1.0.sql`)
 
 A standalone migration script is available for existing databases that need to be updated without recreation.
+
+**Important:** This script is stored in `conf/mysql/` (NOT in `scripts/`) to prevent it from auto-running during fresh database initialization. It's only meant for manual migration of existing databases.
 
 ## How to Apply
 
@@ -55,14 +57,14 @@ docker-compose down -v
 docker-compose up --build
 
 # Option 2: Apply migration script to existing database
-docker exec -i <mysql-container> mysql -uroot -proot WSO2AM_DB < conf/mysql/scripts/migration_is_7.1.0.sql
+docker exec -i <mysql-container> mysql -uroot -proot WSO2AM_DB < conf/mysql/migration_is_7.1.0.sql
 ```
 
 ## Files Modified
 
 1. `/conf/mysql/scripts/mysql_apim.sql` - Updated with WSO2 IS 7.1.0 required tables
 2. `/conf/mysql/scripts/mysql_apim.sql.backup` - Backup of original file
-3. `/conf/mysql/scripts/migration_is_7.1.0.sql` - Migration script for existing databases
+3. `/conf/mysql/migration_is_7.1.0.sql` - Migration script for existing databases (stored outside scripts/ to prevent auto-execution)
 
 ## Verification
 
