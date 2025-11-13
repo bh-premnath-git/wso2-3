@@ -125,11 +125,11 @@ type = "WSO2-IS"
 #key_validation_handler_type = "custom"
 #key_validation_handler_impl = "org.wso2.carbon.apimgt.keymgt.handlers.DefaultKeyValidationHandler"
 
-#[apim.idp]
-#server_url = "https://localhost:${mgt.transport.https.port}"
-#authorize_endpoint = "https://localhost:${mgt.transport.https.port}/oauth2/authorize"
-#oidc_logout_endpoint = "https://localhost:${mgt.transport.https.port}/oidc/logout"
-#oidc_check_session_endpoint = "https://localhost:${mgt.transport.https.port}/oidc/checksession"
+[apim.idp]
+server_url = "https://is-as-km:9444"
+authorize_endpoint = "https://is-as-km:9444/oauth2/authorize"
+oidc_logout_endpoint = "https://is-as-km:9444/oidc/logout"
+oidc_check_session_endpoint = "https://is-as-km:9444/oidc/checksession"
 
 #[apim.jwt]
 #enable = true
