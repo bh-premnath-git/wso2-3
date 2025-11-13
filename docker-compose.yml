@@ -1,8 +1,8 @@
 services:
   mysql:
-    image: mysql:8.0.36
+    image: mysql:8.0.33
     ports:
-      - 3306
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
     volumes:
@@ -20,9 +20,11 @@ services:
       retries: 5
       start_period: 80s
   is-as-km:
-    build: ./dockerfiles/is-as-km
+    build:
+      context: .
+      dockerfile: ./dockerfiles/is-as-km/Dockerfile
     healthcheck:
-      test: ["CMD", "curl", "--fail", "-k", "https://localhost:9443/api/health-check/v1.0/health"]
+      test: ["CMD", "curl", "--fail", "https://localhost:9444/api/health-check/v1.0/health"]
       interval: 10s
       start_period: 180s
       retries: 20
@@ -30,11 +32,16 @@ services:
       mysql:
         condition: service_healthy
     volumes:
-      - ./conf/is-as-km:/home/wso2carbon/wso2-config-volume
+      - ./conf/is-as-km/repository/conf/deployment.toml:/home/wso2carbon/wso2is-7.1.0/repository/conf/deployment.toml
+      - ./conf/is-as-km/repository/resources/conf/templates/repository/conf/identity/identity.xml.j2:/home/wso2carbon/wso2is-7.1.0/repository/resources/conf/templates/repository/conf/identity/identity.xml.j2
+      - ./conf/is-as-km/repository/resources/security/client-truststore.jks:/home/wso2carbon/wso2is-7.1.0/repository/resources/security/client-truststore.jks
+      - ./conf/is-as-km/repository/resources/security/wso2carbon.jks:/home/wso2carbon/wso2is-7.1.0/repository/resources/security/wso2carbon.jks
     ports:
-      - "9444:9443"
+      - "9444:9444"
   api-manager:
-    build: ./dockerfiles/apim
+    build:
+      context: .
+      dockerfile: ./dockerfiles/apim/Dockerfile
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:9763/services/Version"]
       interval: 10s
@@ -46,7 +53,9 @@ services:
       is-as-km:
         condition: service_healthy
     volumes:
-      - ./conf/apim:/home/wso2carbon/wso2-config-volume
+       - ./conf/apim/repository/conf/deployment.toml:/home/wso2carbon/wso2am-4.6.0/repository/conf/deployment.toml
+       - ./conf/apim/repository/resources/security/client-truststore.jks:/home/wso2carbon/wso2am-4.6.0/repository/resources/security/client-truststore.jks
+       - ./conf/apim/repository/resources/security/wso2carbon.jks:/home/wso2carbon/wso2am-4.6.0/repository/resources/security/wso2carbon.jks
     ports:
       - "9443:9443"
       - "8280:8280"
