@@ -88,3 +88,57 @@ enable = false
 [event.default_listener.governance_identity_mgt]
 priority = 95
 enable = false
+
+[event.default_listener.workflow]
+priority = 10
+enable = false
+
+[event.default_listener.scim]
+priority = 90
+enable = false
+
+[event.default_listener.scim_tenant_mgt]
+priority = 90
+enable = false
+
+[event.default_listener.scim2]
+priority = 93
+enable = true
+
+[event.default_listener.scim2_tenant_mgt]
+priority = 93
+enable = false
+
+[event.default_listener.governance_identity_store]
+priority = 97
+enable = true
+data_store = "org.wso2.carbon.identity.governance.store.JDBCIdentityDataStore"
+enable_hybrid_data_store = false
+
+[event.default_listener.application_authentication]
+priority = 11
+enable = false
+
+[event.default_listener.oauth_listener]
+priority = 11
+enable = false
+
+[event.default_listener.mutual_tls_authenticator]
+priority = 5
+enable = true
+
+[event.default_listener.basic_auth_client_authenticator]
+priority = 10
+enable = true
+
+[event.default_listener.user_deletion]
+priority = 98
+enable = true
+
+[event.default_listener.consent_mgt_handler]
+priority = 100
+enable = true
+
+[event.default_listener.user_session_termination]
+priority = 99
+enable = true

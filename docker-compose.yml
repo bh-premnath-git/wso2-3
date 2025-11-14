@@ -33,9 +33,8 @@ services:
         condition: service_healthy
     volumes:
       - ./conf/is-as-km/repository/conf/deployment.toml:/home/wso2carbon/wso2is-7.1.0/repository/conf/deployment.toml
-      # - ./conf/is-as-km/repository/resources/conf/templates/repository/conf/identity/identity.xml.j2:/home/wso2carbon/wso2is-7.1.0/repository/resources/conf/templates/repository/conf/identity/identity.xml.j2
-      # - ./conf/is-as-km/repository/resources/security/client-truststore.jks:/home/wso2carbon/wso2is-7.1.0/repository/resources/security/client-truststore.jks
-      # - ./conf/is-as-km/repository/resources/security/wso2carbon.jks:/home/wso2carbon/wso2is-7.1.0/repository/resources/security/wso2carbon.jks
+      - ./conf/is-as-km/repository/resources/security/client-truststore.p12:/home/wso2carbon/wso2is-7.1.0/repository/resources/security/client-truststore.p12
+      - ./conf/is-as-km/repository/resources/security/wso2carbon.p12:/home/wso2carbon/wso2is-7.1.0/repository/resources/security/wso2carbon.p12
     ports:
       - "9444:9443"
       - "9764:9763"
@@ -54,9 +53,9 @@ services:
       is-as-km:
         condition: service_healthy
     volumes:
-       - ./conf/apim/repository/conf/deployment.toml:/home/wso2carbon/wso2am-4.6.0/repository/conf/deployment.toml
-       # - ./conf/apim/repository/resources/security/client-truststore.jks:/home/wso2carbon/wso2am-4.6.0/repository/resources/security/client-truststore.jks
-       # - ./conf/apim/repository/resources/security/wso2carbon.jks:/home/wso2carbon/wso2am-4.6.0/repository/resources/security/wso2carbon.jks
+      - ./conf/apim/repository/conf/deployment.toml:/home/wso2carbon/wso2am-4.6.0/repository/conf/deployment.toml
+      - ./conf/apim/repository/resources/security/client-truststore.jks:/home/wso2carbon/wso2am-4.6.0/repository/resources/security/client-truststore.jks
+      - ./conf/apim/repository/resources/security/wso2carbon.jks:/home/wso2carbon/wso2am-4.6.0/repository/resources/security/wso2carbon.jks
     ports:
       - "9443:9443"
       - "8280:8280"

@@ -1,0 +1,17 @@
+[2025-11-14 01:12:36,170] ERROR - BasicAuthenticationInterceptor Error occurred while authenticating user: admin
+[2025-11-14 01:12:36,171] ERROR - CarbonBasedPrincipalDatabase User not authenticated.
+[2025-11-14 01:12:36,200] ERROR - JMSListener JMS Provider is not yet started. Please start the JMS provider now.
+[2025-11-14 01:12:36,200] ERROR - AMQConnection Throwable Received but no listener set.
+[2025-11-14 01:12:36,200] ERROR - JMSListener Connection attempt : 1 for JMS Provider failed. Next retry in 20 seconds
+[2025-11-14 01:12:36,224] ERROR - AuthenticationServiceImpl User not authenticated for the given username : admin
+[2025-11-14 01:12:36,236] ERROR - DataEndpointConnectionWorker Error while trying to connect to the endpoint. Cannot borrow client for ssl://172.19.0.3:9711.
+[2025-11-14 01:12:37,890] ERROR - APIUtil Failed to retrieve /internal/data/v1/apis from remote endpoint: Error while retrieving /internal/data/v1/apis. Received response with status code 401. Retry attempt 1 in 15 seconds.
+[2025-11-14 01:12:37,890] ERROR - APIUtil Failed to retrieve /internal/data/v1/subscriptions from remote endpoint: Error while retrieving /internal/data/v1/subscriptions. Received response with status code 401. Retry attempt 1 in 15 seconds.
+[2025-11-14 01:12:37,890] ERROR - APIUtil Failed to retrieve /internal/data/v1/application-policies from remote endpoint: Error while retrieving /internal/data/v1/application-policies. Received response with status code 401. Retry attempt 1 in 15 seconds.
+[2025-11-14 01:12:37,890] ERROR - APIUtil Failed to retrieve /internal/data/v1/api-policies from remote endpoint: Error while retrieving /internal/data/v1/api-policies. Received response with status code 401. Retry attempt 1 in 15 seconds.
+[2025-11-14 01:12:37,890] ERROR - APIUtil Failed to retrieve /internal/data/v1/applications from remote endpoint: Error while retrieving /internal/data/v1/applications. Received response with status code 401. Retry attempt 1 in 15 seconds.
+[2025-11-14 01:12:37,890] ERROR - APIUtil Failed to retrieve /internal/data/v1/subscription-policies from remote endpoint: Error while retrieving /internal/data/v1/subscription-policies. Received response with status code 401. Retry attempt 1 in 15 seconds.
+[2025-11-14 01:12:37,890] ERROR - APIUtil Failed to retrieve /internal/data/v1/application-key-mappings from remote endpoint: Error while retrieving /internal/data/v1/application-key-mappings. Received response with status code 401. Retry attempt 1 in 15 seconds.
+[2025-11-14 01:12:38,357] ERROR - CarbonBasedPrincipalDatabase User not authenticated.
+[2025-11-14 01:12:38,369] ERROR - AMQConnection Throwable Received but no listener set.
+[2025-11-14 01:12:38,370] ERROR - JMSListener JMS Provider is not yet started. Please start the JMS provider now.
