@@ -15,17 +15,27 @@ type = "database_unique_id"
 
 [database.apim_db]
 type = "mysql"
-url = "jdbc:mysql://mysql:3306/WSO2AM_DB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true"
+url = "jdbc:mysql://mysql:3306/WSO2AM_DB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true&amp;connectTimeout=30000&amp;socketTimeout=60000"
 username = "wso2carbon"
 password = "wso2carbon"
 driver = "com.mysql.cj.jdbc.Driver"
+pool_options.maxActive = 50
+pool_options.maxWait = 60000
+pool_options.testOnBorrow = true
+pool_options.validationQuery = "SELECT 1"
+pool_options.validationInterval = 30000
 
 [database.shared_db]
 type = "mysql"
-url = "jdbc:mysql://mysql:3306/WSO2AM_SHARED_DB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true"
+url = "jdbc:mysql://mysql:3306/WSO2AM_SHARED_DB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true&amp;connectTimeout=30000&amp;socketTimeout=60000"
 username = "wso2carbon"
 password = "wso2carbon"
 driver = "com.mysql.cj.jdbc.Driver"
+pool_options.maxActive = 50
+pool_options.maxWait = 60000
+pool_options.testOnBorrow = true
+pool_options.validationQuery = "SELECT 1"
+pool_options.validationInterval = 30000
 
 [keystore.tls]
 file_name =  "wso2carbon.jks"
@@ -103,9 +113,8 @@ gateway_labels =["Default"]
 #[apim.cache.tags]
 #expiry_time = "2m"
 
-#[apim.analytics]
-#enable = false
-#type = "moesif"
+[apim.analytics]
+enable = false
 
 [apim.ai]
 enable = true
@@ -171,19 +180,18 @@ allow_methods = ["GET","PUT","POST","DELETE","PATCH","OPTIONS"]
 allow_headers = ["authorization","Access-Control-Allow-Origin","Content-Type","SOAPAction","apikey","Internal-Key"]
 allow_credentials = false
 
-#[apim.throttling]
-#enable_data_publishing = true
-#enable_policy_deploy = true
-#enable_blacklist_condition = true
-#enable_persistence = true
-#throttle_decision_endpoints = ["tcp://localhost:5672","tcp://localhost:5672"]
+[apim.throttling]
+enable_data_publishing = false
+enable_policy_deploy = true
+enable_blacklist_condition = true
+enable_persistence = true
 
-#[apim.throttling.blacklist_condition]
-#start_delay = "5m"
-#period = "1h"
+[apim.throttling.blacklist_condition]
+start_delay = "5m"
+period = "1h"
 
-#[apim.throttling.jms]
-#start_delay = "5m"
+[apim.throttling.jms]
+enable = false
 
 #[apim.throttling.event_sync]
 #hostName = "0.0.0.0"
@@ -214,7 +222,9 @@ allow_credentials = false
 #client_registration_username = "$ref{super_admin.username}"
 #client_registration_password = "$ref{super_admin.password}"
 
-#data bridge config
+#data bridge config - DISABLED
+# The transport.receiver is used for throttling data publishing
+# Since we have disabled throttling data publishing, this is not needed
 #[transport.receiver]
 #type = "binary"
 #worker_threads = 10
@@ -257,16 +267,18 @@ sp_name_regex = "^[\\sa-zA-Z0-9._-]*$"
 [database.local]
 url = "jdbc:h2:./repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE"
 
-[[event_listener]]
-id = "token_revocation"
-type = "org.wso2.carbon.identity.core.handler.AbstractIdentityHandler"
-name = "org.wso2.is.notification.ApimOauthEventInterceptor"
-order = 1
-[event_listener.properties]
-notification_endpoint = "https://localhost:${mgt.transport.https.port}/internal/data/v1/notify"
-username = "${admin.username}"
-password = "${admin.password}"
-'header.X-WSO2-KEY-MANAGER' = "default"
+# Token revocation event listener - DISABLED in lightweight mode
+# This is only needed when using external IS as Key Manager
+#[[event_listener]]
+#id = "token_revocation"
+#type = "org.wso2.carbon.identity.core.handler.AbstractIdentityHandler"
+#name = "org.wso2.is.notification.ApimOauthEventInterceptor"
+#order = 1
+#[event_listener.properties]
+#notification_endpoint = "https://localhost:${mgt.transport.https.port}/internal/data/v1/notify"
+#username = "${admin.username}"
+#password = "${admin.password}"
+#'header.X-WSO2-KEY-MANAGER' = "default"
 
 [oauth.grant_type.token_exchange]
 enable = true

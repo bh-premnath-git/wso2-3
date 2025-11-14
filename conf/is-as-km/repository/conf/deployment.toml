@@ -13,17 +13,27 @@ type = "database_unique_id"
 
 [database.identity_db]
 type = "mysql"
-url = "jdbc:mysql://mysql:3306/WSO2AM_DB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true"
+url = "jdbc:mysql://mysql:3306/WSO2AM_DB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true&amp;connectTimeout=30000&amp;socketTimeout=60000"
 username = "wso2carbon"
 password = "wso2carbon"
 driver = "com.mysql.cj.jdbc.Driver"
+pool_options.maxActive = 50
+pool_options.maxWait = 60000
+pool_options.testOnBorrow = true
+pool_options.validationQuery = "SELECT 1"
+pool_options.validationInterval = 30000
 
 [database.shared_db]
 type = "mysql"
-url = "jdbc:mysql://mysql:3306/WSO2AM_SHARED_DB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true"
+url = "jdbc:mysql://mysql:3306/WSO2AM_SHARED_DB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true&amp;connectTimeout=30000&amp;socketTimeout=60000"
 username = "wso2carbon"
 password = "wso2carbon"
 driver = "com.mysql.cj.jdbc.Driver"
+pool_options.maxActive = 50
+pool_options.maxWait = 60000
+pool_options.testOnBorrow = true
+pool_options.validationQuery = "SELECT 1"
+pool_options.validationInterval = 30000
 
 [keystore.primary]
 file_name = "wso2carbon.p12"
