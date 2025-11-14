@@ -5,6 +5,7 @@
 -- ------------------------------------------------------------------------
 
 USE WSO2AM_SHARED_DB;
+-- Fix claim mappings for APIM shared database
 
 -- Create the WSO2 local claim dialect when it is missing.
 INSERT INTO UM_DIALECT (UM_DIALECT_URI, UM_TENANT_ID)

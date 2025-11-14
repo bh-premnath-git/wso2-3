@@ -1,9 +1,5 @@
--- WSO2_SHARED_DB initialization
--- This database is shared by both WSO2 IS (IS-AS-KM) and WSO2 APIM
--- Contains registry (REG_*) and user management (UM_*) tables
--- Source: wso2is-7.1.0/dbscripts/mysql.sql (official WSO2 IS 7.1.0 script)
+USE WSO2_IS_SHARED_DB;
 
-USE WSO2AM_SHARED_DB;
 CREATE TABLE IF NOT EXISTS REG_CLUSTER_LOCK (
              REG_LOCK_NAME VARCHAR (20),
              REG_LOCK_STATUS VARCHAR (20),
